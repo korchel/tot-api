@@ -17,5 +17,5 @@ app.use(cors())
 app.use('/api/v1/users', userRoutes);
 
 app.get("/", (req, res) => {
-    res.send("hello world")
+    res.send("server is working")
 })
