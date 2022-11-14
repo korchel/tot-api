@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors')
 const userRoutes = require('./src/users/routes');
 
 const app = express()
@@ -9,6 +10,9 @@ app.listen(port, () => {
 })
 
 app.use(express.json());
+
+
+app.use(cors())
 
 app.use('/api/v1/users', userRoutes);
 

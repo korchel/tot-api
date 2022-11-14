@@ -14,20 +14,22 @@ const addUser = (req, res) => {
     // check if email exists
 
     pool.query(queries.checkEmailExists, [email], (error, results) => {
-        if (results.rows.length) {
-            res.send("Email уже зарегистрирован");
-        } 
+        if (results && results.rows.length) {
+            res.status(400).json({message: "Email уже зарегистрирован"});
+        } else {
+            // add user to db
+            pool.query(queries.addUser, [email], (error, results) => {
+                if (error) throw error;
 
-         // add user to db
-        pool.query(queries.addUser, [email], (error, results) => {
-            if (error) throw error;
-
-            pool.query(queries.getUserByEmail, [email], (error, results) => {
-                if (results.rows.length) {
-                    res.status(201).json(results.rows);
-                } 
+                pool.query(queries.getUserByEmail, [email], (error, results) => {
+                    if (results.rows.length) {
+                        res.status(201).json(results.rows[0]);
+                    } 
+                });
             });
-        });
+        }
+
+        
     });
 }
 
@@ -47,14 +49,15 @@ const updateUser = (req, res) => {
         const noUserFound = !results.rows.length;
 
         if (noUserFound) {
-            res.send("User does not exist.")
+            res.status(400).json({message: "User does not exist."})
+        } else {
+            pool.query(queries.updateUser, [email, id], (error, results) => {
+                if (error) throw error;
+    
+                res.status(200).json({message: "user email updated"})
+            })
         }
-
-        pool.query(queries.updateUser, [email, id], (error, results) => {
-            if (error) throw error;
-
-            res.status(200).send("user email updated")
-        })
+        
     });
 }
 
@@ -65,14 +68,15 @@ const deleteUser = (req, res) => {
         const noUserFound = !results.rows.length;
 
         if (noUserFound) {
-            res.send("User does not exist.")
+            res.status(400).json({message: "User does not exist."})
+        } else {
+            pool.query(queries.deleteUser, [id], (error, results) => {
+                if (error) throw error;
+    
+                res.status(200).json({message: "User removed successfully"})
+            })
         }
 
-        pool.query(queries.deleteUser, [id], (error, results) => {
-            if (error) throw error;
-
-            res.status(200).send("User removed successfully")
-        })
     }) 
 }
 
