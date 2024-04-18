@@ -81,10 +81,11 @@ const deleteUser = (req, res) => {
 }
 
 
+
 module.exports = {
     getUsers,
     getUserById,
     addUser,
     updateUser,
-    deleteUser,
+    deleteUser
 }

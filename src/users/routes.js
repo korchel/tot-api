@@ -3,10 +3,10 @@ const controller = require('./controller');
 
 const router = Router();
 
-router.get('/', controller.getUsers);
-router.post("/", controller.addUser);
-router.get('/:id', controller.getUserById);
-router.put('/:id', controller.updateUser);
-router.delete('/:id', controller.deleteUser);
+router.get('/users', controller.getUsers);
+router.post("/users", controller.addUser);
+router.get('/users/:id', controller.getUserById);
+router.put('/users/:id', controller.updateUser);
+router.delete('/users/:id', controller.deleteUser);
 
 module.exports = router;
