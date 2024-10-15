@@ -1,11 +1,6 @@
 const pool = require('../../db');
 const queries = require('./queries');
 
-
-
-////////////////////////////
-// todo controller
-
 const DEFAULT_STATUS = false;
 
 const getTodos = (req, res) => {
